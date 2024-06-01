@@ -13,7 +13,7 @@ import lombok.Setter;
 @Table(name = "usuario")
 @Entity
 public class Usuario {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_usuario;
