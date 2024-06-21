@@ -10,19 +10,15 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
+@Table(name = "falla")
 @Setter
 @Getter
-@Entity
-@Table(name = "persona")
-public class Persona implements Serializable{
+public class Falla implements Serializable{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_persona;
-    private String nombres;
-    private String ap_paterno;
-    private String ap_materno;
-    private String email;
-    private String ci;
-    private String direccion;
+    private Long id_falla;
+    private String nom_falla;
     private String estado;
 }

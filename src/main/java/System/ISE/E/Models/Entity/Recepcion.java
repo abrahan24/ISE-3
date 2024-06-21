@@ -1,6 +1,7 @@
 package System.ISE.E.Models.Entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,19 +11,16 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
+@Table(name = "recepcion")
 @Setter
 @Getter
-@Entity
-@Table(name = "persona")
-public class Persona implements Serializable{
+public class Recepcion implements Serializable{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_persona;
-    private String nombres;
-    private String ap_paterno;
-    private String ap_materno;
-    private String email;
-    private String ci;
-    private String direccion;
+    private Long id_recepcion;
     private String estado;
+    private Date fecha_recepcion;
+    private Date fecha_modificacion;
 }

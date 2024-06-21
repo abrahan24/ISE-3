@@ -1,6 +1,6 @@
 package System.ISE.E.Models.Entity;
 
-import java.io.Serializable;
+import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,19 +10,18 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
+@Table(name = "rol")
 @Setter
 @Getter
-@Entity
-@Table(name = "persona")
-public class Persona implements Serializable{
+public class Rol {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_persona;
-    private String nombres;
-    private String ap_paterno;
-    private String ap_materno;
-    private String email;
-    private String ci;
-    private String direccion;
+    private Long id_rol;
     private String estado;
+    private String nom_rol;
+    private String descripcion;
+    private Date fecha_registro;
+    private Date fecha_modificacion;
 }
