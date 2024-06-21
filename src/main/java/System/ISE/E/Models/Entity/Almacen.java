@@ -1,6 +1,7 @@
 package System.ISE.E.Models.Entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -15,17 +16,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "cargo")
+@Table(name = "almacen")
 @Setter
 @Getter
-public class Cargo implements Serializable{
-
+public class Almacen implements Serializable{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_cargo;
+    private Long id_almacen;
+    private String nom_alamcen;
     private String estado;
-    private String nom_cargo;
+    private Date fecha_registro;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cargo", fetch = FetchType.LAZY)
-    private List<PersonalAdministrativo> personalAdministrativos;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "almacen", fetch = FetchType.LAZY)
+    private List<Estante> estantes;
 }

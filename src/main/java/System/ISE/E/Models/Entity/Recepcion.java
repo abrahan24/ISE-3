@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,4 +25,12 @@ public class Recepcion implements Serializable{
     private String estado;
     private Date fecha_recepcion;
     private Date fecha_modificacion;
+
+    @ManyToOne
+    @JoinColumn(name = "id_tecnico")
+    private Tecnico tecnico;
+
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
 }

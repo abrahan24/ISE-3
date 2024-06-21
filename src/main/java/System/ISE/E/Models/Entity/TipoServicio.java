@@ -15,17 +15,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "cargo")
+@Table(name = "tipoServicio")
 @Setter
 @Getter
-public class Cargo implements Serializable{
-
+public class TipoServicio implements Serializable{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_cargo;
+    private Long id_tipoServicio;
+    private String nom_TipoServicio;
     private String estado;
-    private String nom_cargo;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cargo", fetch = FetchType.LAZY)
-    private List<PersonalAdministrativo> personalAdministrativos;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoServicio", fetch = FetchType.LAZY)
+    private List<InformeTecnico> informeTecnicos;
 }

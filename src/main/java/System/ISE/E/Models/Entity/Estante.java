@@ -9,23 +9,29 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "cargo")
+@Table(name = "estante")
 @Setter
 @Getter
-public class Cargo implements Serializable{
-
+public class Estante implements Serializable{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_cargo;
+    private Long id_estante;
+    private String nom_estante;
     private String estado;
-    private String nom_cargo;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cargo", fetch = FetchType.LAZY)
-    private List<PersonalAdministrativo> personalAdministrativos;
+    @ManyToOne
+    @JoinColumn(name = "id_almacen")
+    private Almacen almacen;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estante", fetch = FetchType.LAZY)
+    private List<Pieza> piezas;
 }

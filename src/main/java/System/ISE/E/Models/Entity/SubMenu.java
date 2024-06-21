@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,4 +23,8 @@ public class SubMenu implements Serializable{
     private Long id_submenu;
     private String estado;
     private String ruta_url;
+
+    @ManyToOne
+    @JoinColumn(name = "id_menu")
+    private Menu menu;
 }
