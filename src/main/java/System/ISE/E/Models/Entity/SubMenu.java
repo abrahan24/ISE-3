@@ -21,6 +21,7 @@ public class SubMenu implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_submenu;
+    private String nom_subMenu;
     private String estado;
     private String ruta_url;
 

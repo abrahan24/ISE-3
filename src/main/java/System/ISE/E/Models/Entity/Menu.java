@@ -32,7 +32,7 @@ public class Menu implements Serializable{
     @JoinColumn(name = "id_rol")
     private Rol rol;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "menu", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "menu", fetch = FetchType.EAGER)
     private List<SubMenu> subMenus;
 
 }

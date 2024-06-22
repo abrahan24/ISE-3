@@ -29,10 +29,10 @@ public class Rol {
     private Date fecha_registro;
     private Date fecha_modificacion;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol", fetch = FetchType.EAGER)
     private List<Usuario> usuarios;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol", fetch = FetchType.EAGER)
     private List<Menu> menus;
     
 }
