@@ -29,23 +29,25 @@
 					<div class="d-table-cell align-middle">
 
 						<div class="text-center mt-4">
-							<h1 class="h2">INICIO DE SESION</h1>
+							<img src="../../../img/logo_sinFondo.png" alt="">
 							<!-- <p class="lead">
 								Sign in to your account to continue
 							</p> -->
 						</div>
 
-						<div class="card">
+						<div class="card"><br>
+							<h1 class="h2 text-center">INICIO DE SESION</h1>
+
 							<div class="card-body">
 								<div class="m-sm-3">
-									<form th:action="@{/form_login}" method="post">
+									<form th:action="@{/login_form}" method="post">
 										<div class="mb-3">
 											<label class="form-label">Usuario</label>
-											<input class="form-control form-control-lg" type="text" name="email" placeholder="Ingrese su Usuario" />
+											<input class="form-control form-control-lg" type="text" name="user" placeholder="Ingrese su Usuario" />
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Contraseña</label>
-											<input class="form-control form-control-lg" type="password" name="password" placeholder="Ingrese su Contraseña" />
+											<input class="form-control form-control-lg" type="password" name="contrasena" placeholder="Ingrese su Contraseña" />
 										</div>
 										<!-- <div>
 											<div class="form-check align-items-center">
@@ -54,7 +56,7 @@
 											</div>
 										</div> -->
 										<div class="d-grid gap-2 mt-3">
-											<a href="index.html" class="btn btn-lg btn-primary">Ingresar</a>
+											<button type="submit" class="btn btn-lg btn-primary">Ingresar</button>
 										</div>
 									</form>
 								</div>

@@ -9,12 +9,6 @@ public class IndexController {
     
     @GetMapping("/")
     public String index() {
-        return "index";
-    }
-    
-    @GetMapping("/login")
-    public String login() {
-
         return "Login/login";
     }
     
