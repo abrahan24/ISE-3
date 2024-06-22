@@ -1,11 +1,8 @@
 package System.ISE.E.Models.Entity;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,32 +12,30 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "recepcion")
+@Table(name = "detalleRecepcion")
 @Setter
 @Getter
-public class Recepcion implements Serializable{
-    
+public class DetalleRecepcion implements Serializable{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_recepcion;
-    private String estado;
-    private Date fecha_recepcion;
-    private Date fecha_modificacion;
+    private Long id_detalleRecepcion;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_recepcion")
+    private Recepcion recepcion;
 
     @ManyToOne
-    @JoinColumn(name = "id_tecnico")
-    private Tecnico tecnico;
+    @JoinColumn(name = "id_equipo")
+    private Equipo equipo;
 
-    @ManyToOne
-    @JoinColumn(name = "id_cliente")
-    private Cliente cliente;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recepcion", fetch = FetchType.LAZY)
-    private List<DetalleRecepcion> detalleRecepciones;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "recepcion_fallas", joinColumns = @JoinColumn(name = "id_detalleRecepcion"), inverseJoinColumns = @JoinColumn(name = "id_falla"))
+    private Set<Falla> fallas;
+    
 }

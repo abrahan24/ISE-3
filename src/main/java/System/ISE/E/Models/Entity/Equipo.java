@@ -36,4 +36,7 @@ public class Equipo implements Serializable{
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo", fetch = FetchType.LAZY)
     private List<DetalleInformeTecnico> detalleInformeTecnicos;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo", fetch = FetchType.LAZY)
+    private List<DetalleRecepcion> detalleRecepciones;
 }

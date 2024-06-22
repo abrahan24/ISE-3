@@ -35,4 +35,8 @@ public class Falla implements Serializable{
     @JsonIgnore
     @ManyToMany(mappedBy = "fallas")
     private Set<DetalleInformeTecnico> detalleInformeTecnicos;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "fallas")
+    private Set<DetalleRecepcion> detalleRecepciones;
 }
