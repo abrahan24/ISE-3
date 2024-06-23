@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:insert="~{Layout/head :: head}" >
+</head>
+
+<body>
+	<div class="wrapper">
+        <nav th:insert="~{Layout/sidebar :: sidebar}" >
+        </nav>
+
+		<div class="main">
+			<nav th:insert="~{Layout/navbar :: navbar}" >
+			</nav>
+
+			<main class="content">
+				<div class="container-fluid p-0">
+					<div class="row">
+						<div class="col-12 col-lg-12">
+							<div class="card">
+								<div class="card-header" >
+                                    <h1 class="h3 mb-3">Seleccione Lista</h1>
+								</div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 col-lg-4">
+                                            <select class="js-example-basic-single" name="state" width="100%" >
+                                                <option value="AL">Alabama</option>
+                                                  ...
+                                                <option value="WY">Wyoming</option>
+                                              </select>
+                                        </div>
+                                    </div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</main>
+
+			<footer th:insert="~{Layout/footer :: footer}">
+			</footer>
+		</div>
+	</div>
+
+	<div th:insert="~{Layout/scrips :: scrips}"> </div>
+    <script>
+        $(document).ready(function(){
+            $('.js-example-basic-single').select2();
+        });
+    </script>
+</body>
+
+</html>
