@@ -1,31 +1,31 @@
-package System.ISE.E.Controllers.Persona;
+package System.ISE.E.Controllers.TecnicoController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
-import System.ISE.E.Models.Dao.PersonaDao;
+import System.ISE.E.Models.Dao.TecnicoDao;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
-
 @Controller
-public class PersonaController {
+public class TecnicoController {
     
     @Autowired
-    private PersonaDao personaDao;
+    private TecnicoDao tecnicoDao;
 
-    @GetMapping("/persona")
-    public String persona(Model model,HttpServletRequest request) {
+    @GetMapping("/tecnicos")
+    public String tecnicos(Model model, HttpServletRequest request) {
+
         if (request.getSession().getAttribute("usuario") != null) {
-            
 
-            return "Persona/lista_personas";
+            model.addAttribute("tecnicos", tecnicoDao.findAll());
+
+            return "Persona/lista_tecnicos";
         }else{
             return "redirect:/login";
         }
-        
     }
     
 }
