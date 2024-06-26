@@ -1,0 +1,105 @@
+<div th:fragment="form_tecnico" class="modal-content">
+    <form th:action="@{/TecnicoF}" method="post" id="form1">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Formulario Registro Tecnicos</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" th:field="*{persona.id_persona}">
+            <input type="hidden" th:field="*{tecnico.id_tecnico}">
+            <div class="row">
+                <div class="col-4">
+                    <label for="">Nombre</label>
+                    <input type="text" class="form-control" th:field="*{persona.nombres}" placeholder="Nombre" required>
+                </div>
+                <div class="col-4">
+                    <label for="">Apellido Paterno</label>
+                    <input type="text" class="form-control" th:field="*{persona.ap_paterno}" placeholder="Apellido Paterno" required>
+                </div>
+                <div class="col-4">
+                    <label for="">Apellido Materno</label>
+                    <input type="text" class="form-control" th:field="*{persona.ap_materno}" placeholder="Apellido Materno">
+                </div>
+            </div>
+            &nbsp;
+            <div class="row">
+                <div class="col-4">
+                    <label for="">CI</label>
+                    <input type="text" class="form-control" th:field="*{persona.ci}" placeholder="CI">
+                </div>
+                <div class="col-4">
+                    <label for="">Correo Electronico</label>
+                    <input type="email" class="form-control" th:field="*{persona.email}" placeholder="Correo Electronico">
+                </div>
+                <div class="col-4">
+                    <label for="">Direccion</label>
+                    <input type="text" class="form-control" th:field="*{persona.direccion}" placeholder="Direccion">
+                </div>
+            </div>
+            &nbsp;
+            <div class="row">
+                <div class="col-4">
+                    <label for="">Especialidad</label>
+                    <input type="text" class="form-control" th:field="*{tecnico.especialidad}" placeholder="Especialidad">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary" th:if="${persona.id_persona == null}">Registrar</button>
+            <button type="submit" class="btn btn-primary" th:if="${persona.id_persona != null}">Actualizar</button>
+        </div>
+    </form>
+    <script>
+        $(document).ready(function () {
+            $('#form1').submit(function (event) {
+                event.preventDefault();
+
+                var form = document.getElementById("form1");
+                var action = form.action;
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: formData,
+                    contentType: 'application/x-www-form-urlencoded',
+                    success: function (response) {
+                        var mensaje = response;
+                        if (mensaje === "1") {
+                            Swal.fire({
+                                title: 'Registro Exitoso!',
+                                icon: "success",
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $("#exampleModal").modal("hide");
+                            setInterval(() => {
+                                window.location.href = "/tecnicos";
+                            }, 1600);
+                        } 
+                        else if(mensaje === '2'){
+                            Swal.fire({
+                                title: 'Actualización Exitosa!',
+                                icon: "success",
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $("#exampleModal").modal("hide");
+                            setInterval(() => {
+                                window.location.href = "/tecnicos";
+                            }, 1600);
+                        }
+                      
+                    },
+                    error: function (xhr, status, error) {
+                        toastr.error('Ha ocurrido un error. Por favor, intenta nuevamente.' + xhr, status, error);
+                        console.error(error);
+                        // Manejo de errores
+                    }
+                });
+
+            });
+        });
+    </script>
+</div>
