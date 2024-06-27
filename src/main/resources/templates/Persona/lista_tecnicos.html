@@ -45,9 +45,9 @@
                                                     th:text="${tec.persona.nombres +' '+ tec.persona.ap_paterno +' '+ tec.persona.ap_materno}">
                                                 </td>
                                                 <td th:text="${tec.especialidad}"></td>
-                                                <td th:text="${tec.persona.ci}">System Architect</td>
-                                                <td th:text="${tec.persona.direccion}">Edinburgh</td>
-                                                <td th:text="${tec.persona.email}">61</td>
+                                                <td th:text="${tec.persona.ci}"></td>
+                                                <td th:text="${tec.persona.direccion}"></td>
+                                                <td th:text="${tec.persona.email}"></td>
                                                 <td class="text-center">
                                                     <button class="btn btn-success"
                                                         th:attr="onclick='editarRegistro(\''+ ${tec.id_tecnico} + '\')'">Editar</button>
