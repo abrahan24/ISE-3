@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -79,12 +80,24 @@ public class TecnicoController {
     }
     
     @GetMapping("/editar_tecnico/{id_tecnico}")
-    public String getMethodName(@PathVariable(name = "id_tecnico")Long id_tecnico,Model model) {
+    public String editar_tecnico(@PathVariable(name = "id_tecnico")Long id_tecnico,Model model) {
         Tecnico tecnico = tecnicoDao.findById(id_tecnico).orElse(null);
         model.addAttribute("tecnico", tecnico);
         model.addAttribute("persona", tecnico.getPersona());
-        model.addAttribute("edit", "false");
         return "Content/form_persona :: form_tecnico";
+    }
+    
+    @GetMapping("/eliminar_tecnico/{id_tecnico}")
+    @ResponseBody
+    public void eliminar_tecnico(@PathVariable(name = "id_tecnico")Long id_tecnico) {
+
+        Tecnico tecnico = tecnicoDao.findById(id_tecnico).orElse(null);
+        Persona persona = personaDao.findById(tecnico.getPersona().getId_persona()).orElse(null);
+        persona.setEstado("X");
+        personaDao.save(persona);
+        tecnico.setEstado("X");
+        tecnicoDao.save(tecnico);
+
     }
     
     
