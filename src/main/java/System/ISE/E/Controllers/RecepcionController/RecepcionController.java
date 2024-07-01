@@ -9,6 +9,9 @@ import org.springframework.validation.annotation.Validated;
 import System.ISE.E.Models.Dao.PersonaDao;
 import System.ISE.E.Models.Dao.RecepcionDado;
 import System.ISE.E.Models.Dao.TecnicoDao;
+import System.ISE.E.Models.Dao.TipoEquipoDao;
+import System.ISE.E.Models.Entity.Cliente;
+import System.ISE.E.Models.Entity.Equipo;
 import System.ISE.E.Models.Entity.Persona;
 import System.ISE.E.Models.Entity.Recepcion;
 import System.ISE.E.Models.Entity.Tecnico;
@@ -34,6 +37,9 @@ public class RecepcionController {
     @Autowired
     private PersonaDao personaDao;
 
+    @Autowired
+    private TipoEquipoDao tipoEquipoDao;
+
     @GetMapping("/recepciones")
     public String recepciones(Model model, HttpServletRequest request) {
 
@@ -51,7 +57,12 @@ public class RecepcionController {
     public String recepcion(Model model) {
        
         model.addAttribute("recepcion", new Recepcion());
-        return "Content/form_recepcion :: form_tecnico";
+        model.addAttribute("tecnicos", tecnicoDao.findAll());
+        model.addAttribute("persona", new Persona());
+        model.addAttribute("cliente", new Cliente());
+        model.addAttribute("equipo", new Equipo());
+        model.addAttribute("tipoEquipos", tipoEquipoDao.findAll());
+        return "Content/form_recepcion :: form_recepcion";
     }
 
     @PostMapping("/RecepcionF")

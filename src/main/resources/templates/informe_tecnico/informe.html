@@ -19,45 +19,54 @@
                         <div class="col-12 col-lg-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h1 class="h3">Lista de Recepciones</h1>
+                                    <h1 class="h3">Registro de Informe Tecnico</h1>
                                     <div class="text-end">
-                                        <button type="button" class="btn btn-primary" onclick="nuevoRegistro()">NUEVO
-                                            REGISTRO</button>
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>N°</th>
-                                                <th>Tecnico</th>
-                                                <th>Especialidad</th>
-                                                <th>CI</th>
-                                                <th>Direccion</th>
-                                                <th>Correo</th>
-                                                <th>Accion</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr th:each="rec, num : ${recepciones}" th:if="${rec.estado != 'X'}">
-                                                <td th:text="${num.index + 1}"></td>
-                                                <td
-                                                    th:text="${rec.tecnico.persona.nombres +' '+ rec.tecnico.persona.ap_paterno +' '+ rec.tecnico.persona.ap_materno}">
-                                                </td>
-                                                <!-- <td th:text="${tec.especialidad}"></td>
-                                                <td th:text="${tec.persona.ci}"></td>
-                                                <td th:text="${tec.persona.direccion}"></td>
-                                                <td th:text="${tec.persona.email}"></td> -->
-                                                <td class="text-center">
-                                                    <button class="btn btn-success"
-                                                        th:attr="onclick='editarRegistro(\''+ ${rec.id_recepcion} + '\')'">Editar</button>
-                                                    <button class="btn btn-danger"
-                                                    th:attr="onclick='eliminarRegistro(\''+ ${rec.id_recepcion} + '\')'">Eliminar</button>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="">Tecnico</label>
+                                            <select class="js-example-basic-single"  style="width: 100%;">
+                                                <option th:each="t : ${tecnicos}" th:if="${t.estado != 'X'}"
+                                                    th:text="${t.persona.nombres +' '+ t.persona.ap_paterno +' '+ t.persona.ap_materno +' - '+ t.especialidad}"
+                                                    th:value="${t.id_tecnico}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="">Tipo de Servicio</label>
+                                            <select class="js-example-basic-single" style="width: 100%;">
+                                                <option th:each="tp : ${tipoServicios}" th:if="${tp.estado != 'X'}"
+                                                    th:text="${tp.nom_TipoServicio}"
+                                                    th:value="${tp.id_tipoServicio}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <label for="">Observacion</label>
+                                            <input type="text" class="form-control" th:field="*{informe.observacion}" placeholder="Observacion" required>
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="">Recomendacion</label>
+                                            <input type="text" class="form-control" th:field="*{informe.recomendacion}"
+                                                placeholder="Recomendacion" required>
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="">Conclucion</label>
+                                            <input type="text" class="form-control" th:field="*{informe.conclucion}"
+                                                placeholder="Conclucion">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <button type="submit" class="btn btn-primary" >Registrar</button>
                                 </div>
                             </div>
                         </div>
@@ -98,7 +107,7 @@
         function nuevoRegistro() {
             $.ajax({
                 type: "GET",
-                url: "/recepcion",
+                url: "/usuario",
                 success: function (response) {
                     $("#exampleModal").modal("show");
                     $("#replace").html(response);
@@ -109,7 +118,7 @@
         function editarRegistro(id) {
             $.ajax({
                 type: "GET",
-                url: "/editar_tecnico/" + id,
+                url: "/editar_usuario/" + id,
                 success: function (response) {
                     $("#exampleModal").modal("show");
                     $("#replace").html(response);
@@ -132,10 +141,10 @@
                     // Si el usuario hace clic en "Sí, eliminar"
                     $.ajax({
                         type: "GET",
-                        url: "/eliminar_tecnico/" + id,
+                        url: "/eliminar_usuario/" + id,
                         success: function (response) {
                             console.log("Eliminacion con Exito");
-                            window.location.href = "/tecnicos";
+                            window.location.href = "/usuarios";
                         },
                         error: function (xhr, status, error) {
                             console.log(error);

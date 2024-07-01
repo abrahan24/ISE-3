@@ -1,5 +1,5 @@
-<div th:fragment="form_tecnico" class="modal-content">
-    <form th:action="@{/TecnicoF}" method="post" id="form1">
+<div th:fragment="form_recepcion" class="modal-content">
+    <form th:action="@{/RecepcionF}" method="post" id="form1">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Formulario Registro Recepciones</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -7,42 +7,78 @@
         <div class="modal-body">
             <!-- <input type="hidden" th:field="*{persona.id_persona}"> -->
             <input type="hidden" th:field="*{recepcion.id_recepcion}">
-            <!-- <div class="row">
+            <input type="hidden" th:field="*{cliente.id_cliente}">
+            <input type="hidden" th:field="*{persona.id_persona}">
+            <div class="row">
+                <div class="col-12">
+                    <label for="">Tecnico</label>
+                    <select class="js-example-basic-single" th:field="*{recepcion.tecnico}" style="width: 100%;">
+                        <option th:each="t : ${tecnicos}" th:if="${t.estado != 'X'}"
+                            th:text="${t.persona.nombres +' '+ t.persona.ap_paterno +' '+ t.persona.ap_materno +' - '+ t.especialidad}"
+                            th:value="${t.id_tecnico}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+            &nbsp;
+            <div class="row">
+                <h5>Datos del Cliente</h5>
                 <div class="col-4">
                     <label for="">Nombre</label>
                     <input type="text" class="form-control" th:field="*{persona.nombres}" placeholder="Nombre" required>
                 </div>
                 <div class="col-4">
                     <label for="">Apellido Paterno</label>
-                    <input type="text" class="form-control" th:field="*{persona.ap_paterno}" placeholder="Apellido Paterno" required>
+                    <input type="text" class="form-control" th:field="*{persona.ap_paterno}"
+                        placeholder="Apellido Paterno" required>
                 </div>
                 <div class="col-4">
                     <label for="">Apellido Materno</label>
-                    <input type="text" class="form-control" th:field="*{persona.ap_materno}" placeholder="Apellido Materno">
+                    <input type="text" class="form-control" th:field="*{persona.ap_materno}"
+                        placeholder="Apellido Materno">
                 </div>
-            </div> -->
+            </div>
             &nbsp;
-            <!-- <div class="row">
+            <div class="row">
+
                 <div class="col-4">
                     <label for="">CI</label>
                     <input type="text" class="form-control" th:field="*{persona.ci}" placeholder="CI">
                 </div>
                 <div class="col-4">
                     <label for="">Correo Electronico</label>
-                    <input type="email" class="form-control" th:field="*{persona.email}" placeholder="Correo Electronico">
+                    <input type="email" class="form-control" th:field="*{persona.email}"
+                        placeholder="Correo Electronico">
                 </div>
                 <div class="col-4">
                     <label for="">Direccion</label>
                     <input type="text" class="form-control" th:field="*{persona.direccion}" placeholder="Direccion">
                 </div>
-            </div> -->
-            &nbsp;
-            <!-- <div class="row">
-                <div class="col-4">
-                    <label for="">Especialidad</label>
-                    <input type="text" class="form-control" th:field="*{tecnico.especialidad}" placeholder="Especialidad">
+            </div>
+            <div class="row">
+                <h5>Datos del Equipos</h5>
+                <div id="equipos-container">
+                    <!-- <div class="row">
+                        <div class="col-4">
+                            <label for="">Marca</label>
+                            <input type="text" class="form-control" th:field="*{equipo.marca}" placeholder="Marca">
+                        </div>
+                        <div class="col-4">
+                            <label for="">Modelo</label>
+                            <input type="email" class="form-control" th:field="*{equipo.modelo}" placeholder="Modelo">
+                        </div>
+                        <div class="col-4">
+                            <label for="">Serie</label>
+                            <input type="text" class="form-control" th:field="*{equipo.serie}" placeholder="Serie">
+                        </div>
+                    </div> -->
+
                 </div>
-            </div> -->
+                &nbsp;
+                <div class="col-12">
+                    <button type="button" class="btn btn-secondary" id="add-equipo">Añadir Equipo</button>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -52,6 +88,7 @@
     </form>
     <script>
         $(document).ready(function () {
+            $('.js-example-basic-single').select2();
             $('#form1').submit(function (event) {
                 event.preventDefault();
 
@@ -77,8 +114,8 @@
                             setInterval(() => {
                                 window.location.href = "/recepciones";
                             }, 1600);
-                        } 
-                        else if(mensaje === '2'){
+                        }
+                        else if (mensaje === '2') {
                             Swal.fire({
                                 title: 'Actualización Exitosa!',
                                 icon: "success",
@@ -90,7 +127,7 @@
                                 window.location.href = "/recepciones";
                             }, 1600);
                         }
-                      
+
                     },
                     error: function (xhr, status, error) {
                         toastr.error('Ha ocurrido un error. Por favor, intenta nuevamente.' + xhr, status, error);
@@ -100,6 +137,44 @@
                 });
 
             });
+        });
+    </script>
+    
+    <script th:inline="javascript">
+        document.getElementById('add-equipo').addEventListener('click', function () {
+            
+            const container = document.getElementById('equipos-container');
+            const index = container.childElementCount; // Dividido por 4 porque cada equipo tiene 4 campos
+            var tipoEquipos = /*[[${tipoEquipos}]]*/ [];
+            const tipoEquiposOptions = tipoEquipos.filter(tp => tp.estado != 'X').map(tp => 
+                `<option value="${tp.id_tipoEquipo}">${tp.nom_tipoEquipo}</option>`
+            ).join('');
+    
+            const newFields = `
+                <div class="row">
+                    <div class="col-3">
+                        <label for="">Marca</label>
+                        <input type="text" class="form-control" name="equipo[${index}].marca" placeholder="Marca">
+                    </div>
+                    <div class="col-3">
+                        <label for="">Modelo</label>
+                        <input type="email" class="form-control" name="equipo[${index}].modelo" placeholder="Modelo">
+                    </div>
+                    <div class="col-3">
+                        <label for="">Serie</label>
+                        <input type="text" class="form-control" name="equipo[${index}].serie" placeholder="Serie">
+                    </div>
+                    <div class="col-3">
+                        <label for="">Tipo De Equipo</label>
+                        <select class="js-example-basic-single" name="equipo[${index}].tipoEquipo" style="width: 100%;">
+                            ${tipoEquiposOptions}
+                        </select>
+                    </div>
+                </div>
+            `;
+    
+            container.insertAdjacentHTML('beforeend', newFields);
+            $('.js-example-basic-single').select2();
         });
     </script>
 </div>
