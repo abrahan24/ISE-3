@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:insert="~{Layout/head :: head}">
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav th:insert="~{Layout/sidebar :: sidebar}">
+        </nav>
+
+        <div class="main">
+            <nav th:insert="~{Layout/navbar :: navbar}">
+            </nav>
+
+            <main class="content">
+                <div class="container-fluid p-0">
+                    <div class="row">
+                        <div class="col-12 col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h1 class="h3">Lista de Recepciones</h1>
+                                    <div class="text-end">
+                                        <button type="button" class="btn btn-primary" onclick="nuevoRegistro()">NUEVO
+                                            REGISTRO</button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>N°</th>
+                                                <th>Tecnico</th>
+                                                <!-- <th>Especialidad</th>
+                                                <th>CI</th>
+                                                <th>Direccion</th>
+                                                <th>Correo</th> -->
+                                                <th>Accion</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="rec, num : ${recepciones}" th:if="${rec.estado != 'X'}">
+                                                <td th:text="${num.index + 1}"></td>
+                                                <td
+                                                    th:text="${rec.tecnico.persona.nombres +' '+ rec.tecnico.persona.ap_paterno +' '+ rec.tecnico.persona.ap_materno}">
+                                                </td>
+                                                <!-- <td th:text="${tec.especialidad}"></td>
+                                                <td th:text="${tec.persona.ci}"></td>
+                                                <td th:text="${tec.persona.direccion}"></td>
+                                                <td th:text="${tec.persona.email}"></td> -->
+                                                <td class="text-center">
+                                                    <button class="btn btn-success"
+                                                        th:attr="onclick='editarRegistro(\''+ ${rec.id_recepcion} + '\')'">Editar</button>
+                                                    <button class="btn btn-danger"
+                                                    th:attr="onclick='eliminarRegistro(\''+ ${rec.id_recepcion} + '\')'">Eliminar</button>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </main>
+
+            <footer th:insert="~{Layout/footer :: footer}">
+            </footer>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content modal-lg">
+                <div id="replace">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:insert="~{Layout/scrips :: scrips}"> </div>
+    <script>
+        $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+    </script>
+    <script>
+        function nuevoRegistro() {
+            $.ajax({
+                type: "GET",
+                url: "/tecnico",
+                success: function (response) {
+                    $("#exampleModal").modal("show");
+                    $("#replace").html(response);
+                },
+            });
+        }
+
+        function editarRegistro(id) {
+            $.ajax({
+                type: "GET",
+                url: "/editar_tecnico/" + id,
+                success: function (response) {
+                    $("#exampleModal").modal("show");
+                    $("#replace").html(response);
+                },
+            });
+        }
+
+        function eliminarRegistro(id) {
+            Swal.fire({
+                title: "Atencion!",
+                text: "¿Estas seguro que desea eliminar el registro?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "SI, Eliminar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Si el usuario hace clic en "Sí, eliminar"
+                    $.ajax({
+                        type: "GET",
+                        url: "/eliminar_tecnico/" + id,
+                        success: function (response) {
+                            console.log("Eliminacion con Exito");
+                            window.location.href = "/tecnicos";
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            });
+
+        }
+
+        function EliminarRegistro(id) {
+            Swal.fire({
+                title: "Atencion!",
+                text: "¿Estas seguro que desea eliminar el registro?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "SI, Eliminar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Si el usuario hace clic en "Sí, eliminar"
+                    $.ajax({
+                        type: 'POST',
+                        url: "/eliminar-persona/" + id,
+                        success: function (response) {
+
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
