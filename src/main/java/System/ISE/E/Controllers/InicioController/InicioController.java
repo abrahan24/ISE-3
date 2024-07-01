@@ -1,4 +1,4 @@
-package System.ISE.E.Controllers.Inicio;
+package System.ISE.E.Controllers.InicioController;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

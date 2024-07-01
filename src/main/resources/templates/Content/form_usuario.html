@@ -1,0 +1,116 @@
+<div th:fragment="form_usuario" class="modal-content">
+    <form th:action="@{/UsuarioF}" method="post" id="form1">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Formulario Registro Usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" th:field="*{usuario.id_usuario}">
+            <div class="row">
+                <div class="col-6">
+                    <label for="">Usuario</label>
+                    <input type="text" class="form-control" th:field="*{usuario.usuario_nom}" placeholder="Usuario"
+                        required>
+                </div>
+                <div class="col-6">
+                    <label for="">Contraseña</label>
+                    <!-- Campo de contraseña para registro de nuevo usuario -->
+                    <input type="text" class="form-control" th:if="${usuario.id_usuario == null}" th:field="*{usuario.contrasena}" placeholder="Contraseña"
+                        required>
+                    <!-- Campo de nueva contraseña para actualización de usuario -->
+                    <input type="text" class="form-control" th:if="${usuario.id_usuario != null}" name="nueva_contrasena" id="nueva_contrasena" placeholder="Nueva Contraseña">
+                </div>
+            </div>
+            <div class="row" th:if="${usuario.id_usuario == null}">
+                <div class="col-6">
+                    <label for="">Persona</label>
+                    <select class="js-example-basic-single" th:field="*{usuario.persona}" style="width: 100%;" name="idPersona">
+                        <option th:each="p : ${personas}" th:if="${p.estado != 'X'}"
+                            th:text="${p.nombres +' '+ p.ap_paterno +' '+ p.ap_materno}" th:value="${p.id_persona}">
+                        </option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label for="">Rol</label>
+                    <select class="js-example-basic-single" th:field="*{usuario.rol}" style="width: 100%;" name="idRol">
+                        <option th:each="r : ${roles}" th:if="${r.estado != 'X'}" th:text="${r.nom_rol}"
+                            th:value="${r.id_rol}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <!-- Botón para registrar nuevo usuario -->
+            <button type="submit" class="btn btn-primary" th:if="${usuario.id_usuario == null}">Registrar</button>
+            <!-- Botón para actualizar usuario -->
+            <button type="submit" class="btn btn-primary" th:if="${usuario.id_usuario != null}">Actualizar</button>
+        </div>
+    </form>
+    <script>
+        $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+
+            $('#form1').submit(function (event) {
+                event.preventDefault();
+
+                var form = document.getElementById("form1");
+                var action = form.action;
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: formData,
+                    contentType: 'application/x-www-form-urlencoded',
+                    success: function (response) {
+                        var mensaje = response;
+                        if (mensaje === "1") {
+                            Swal.fire({
+                                title: 'Registro Exitoso!',
+                                icon: "success",
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $("#exampleModal").modal("hide");
+                            setInterval(() => {
+                                window.location.href = "/usuarios";
+                            }, 1600);
+                        }
+                        else if (mensaje === '2') {
+                            Swal.fire({
+                                title: 'Actualización Exitosa!',
+                                icon: "success",
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $("#exampleModal").modal("hide");
+                            setInterval(() => {
+                                window.location.href = "/usuarios";
+                            }, 1600);
+                        }
+                        else if (mensaje === '3') {
+                            Swal.fire({
+                                title: 'La Persona ya Tiene un Usuario!',
+                                icon: "info",
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $("#exampleModal").modal("hide");
+                            setInterval(() => {
+                                window.location.href = "/usuarios";
+                            }, 1600);
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        toastr.error('Ha ocurrido un error. Por favor, intenta nuevamente.' + xhr, status, error);
+                        console.error(error);
+                        // Manejo de errores
+                    }
+                });
+
+            });
+        });
+    </script>
+</div>

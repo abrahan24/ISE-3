@@ -8,7 +8,7 @@
             <th:block th:each="m : ${session.usuario.rol.menus}">
                 <li class="sidebar-header" th:text="${m.nom_menu}">
                 </li>
-                <th:block th:each="sm : ${m.subMenus}">
+                <th:block th:each="sm : ${m.subMenus}" th:if="${sm.estado != 'X'}">
                     <li class="sidebar-item">
                         <a class="sidebar-link" th:href="${sm.ruta_url}">
                             <i class="align-middle" data-feather="check-square"></i> <span class="align-middle" th:text="${sm.nom_subMenu}"></span>

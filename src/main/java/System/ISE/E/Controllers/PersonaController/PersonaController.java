@@ -1,4 +1,4 @@
-package System.ISE.E.Controllers.Persona;
+package System.ISE.E.Controllers.PersonaController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,6 @@ public class PersonaController {
     public String persona(Model model,HttpServletRequest request) {
         if (request.getSession().getAttribute("usuario") != null) {
             
-
             return "Persona/lista_personas";
         }else{
             return "redirect:/login";
