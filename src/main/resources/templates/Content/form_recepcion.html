@@ -1,18 +1,18 @@
 <div th:fragment="form_recepcion" class="modal-content">
-    <form th:action="@{/RecepcionF}" method="post" id="form1" th:object="${recepcion}">
+    <form th:action="@{/RecepcionF}" method="post" id="form1" >
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Formulario Registro Recepciones</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <!-- <input type="hidden" th:field="*{persona.id_persona}"> -->
-            <input type="hidden" th:field="*{id_recepcion}">
+            <input type="hidden" th:field="*{recepcion.id_recepcion}">
             <input type="hidden" th:field="*{cliente.id_cliente}">
-            <input type="hidden" th:field="*{cliente.persona.id_persona}">
+            <input type="hidden" th:field="*{persona.id_persona}">
             <div class="row">
                 <div class="col-12">
                     <label for="">Tecnico</label>
-                    <select class="js-example-basic-single" th:field="*{tecnico}" style="width: 100%;">
+                    <select class="js-example-basic-single" th:field="*{recepcion.tecnico}" style="width: 100%;">
                         <option value="" selected></option>
                         <option th:each="t : ${tecnicos}" th:if="${t.estado != 'X'}"
                             th:text="${t.persona.nombres +' '+ t.persona.ap_paterno +' '+ t.persona.ap_materno +' - '+ t.especialidad}"
@@ -26,16 +26,16 @@
                 <h5>Datos del Cliente</h5>
                 <div class="col-4">
                     <label for="">Nombre</label>
-                    <input type="text" class="form-control" th:field="*{cliente.persona.nombres}" placeholder="Nombre" required>
+                    <input type="text" class="form-control" th:field="*{persona.nombres}" placeholder="Nombre" required>
                 </div>
                 <div class="col-4">
                     <label for="">Apellido Paterno</label>
-                    <input type="text" class="form-control" th:field="*{cliente.persona.ap_paterno}"
+                    <input type="text" class="form-control" th:field="*{persona.ap_paterno}"
                         placeholder="Apellido Paterno" required>
                 </div>
                 <div class="col-4">
                     <label for="">Apellido Materno</label>
-                    <input type="text" class="form-control" th:field="*{cliente.persona.ap_materno}"
+                    <input type="text" class="form-control" th:field="*{persona.ap_materno}"
                         placeholder="Apellido Materno">
                 </div>
             </div>
@@ -44,16 +44,16 @@
 
                 <div class="col-4">
                     <label for="">CI</label>
-                    <input type="text" class="form-control" th:field="*{cliente.persona.ci}" placeholder="CI">
+                    <input type="text" class="form-control" th:field="*{persona.ci}" placeholder="CI">
                 </div>
                 <div class="col-4">
                     <label for="">Correo Electronico</label>
-                    <input type="email" class="form-control" th:field="*{cliente.persona.email}"
+                    <input type="email" class="form-control" th:field="*{persona.email}"
                         placeholder="Correo Electronico">
                 </div>
                 <div class="col-4">
                     <label for="">Direccion</label>
-                    <input type="text" class="form-control" th:field="*{cliente.persona.direccion}" placeholder="Direccion">
+                    <input type="text" class="form-control" th:field="*{persona.direccion}" placeholder="Direccion">
                 </div>
             </div>
             <div class="row">
