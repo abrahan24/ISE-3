@@ -1,18 +1,19 @@
 <div th:fragment="form_recepcion" class="modal-content">
-    <form th:action="@{/RecepcionF}" method="post" id="form1">
+    <form th:action="@{/RecepcionF}" method="post" id="form1" th:object="${recepcion}">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Formulario Registro Recepciones</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <!-- <input type="hidden" th:field="*{persona.id_persona}"> -->
-            <input type="hidden" th:field="*{recepcion.id_recepcion}">
+            <input type="hidden" th:field="*{id_recepcion}">
             <input type="hidden" th:field="*{cliente.id_cliente}">
-            <input type="hidden" th:field="*{persona.id_persona}">
+            <input type="hidden" th:field="*{cliente.persona.id_persona}">
             <div class="row">
                 <div class="col-12">
                     <label for="">Tecnico</label>
-                    <select class="js-example-basic-single" th:field="*{recepcion.tecnico}" style="width: 100%;">
+                    <select class="js-example-basic-single" th:field="*{tecnico}" style="width: 100%;">
+                        <option value="" selected></option>
                         <option th:each="t : ${tecnicos}" th:if="${t.estado != 'X'}"
                             th:text="${t.persona.nombres +' '+ t.persona.ap_paterno +' '+ t.persona.ap_materno +' - '+ t.especialidad}"
                             th:value="${t.id_tecnico}">
@@ -25,16 +26,16 @@
                 <h5>Datos del Cliente</h5>
                 <div class="col-4">
                     <label for="">Nombre</label>
-                    <input type="text" class="form-control" th:field="*{persona.nombres}" placeholder="Nombre" required>
+                    <input type="text" class="form-control" th:field="*{cliente.persona.nombres}" placeholder="Nombre" required>
                 </div>
                 <div class="col-4">
                     <label for="">Apellido Paterno</label>
-                    <input type="text" class="form-control" th:field="*{persona.ap_paterno}"
+                    <input type="text" class="form-control" th:field="*{cliente.persona.ap_paterno}"
                         placeholder="Apellido Paterno" required>
                 </div>
                 <div class="col-4">
                     <label for="">Apellido Materno</label>
-                    <input type="text" class="form-control" th:field="*{persona.ap_materno}"
+                    <input type="text" class="form-control" th:field="*{cliente.persona.ap_materno}"
                         placeholder="Apellido Materno">
                 </div>
             </div>
@@ -43,36 +44,22 @@
 
                 <div class="col-4">
                     <label for="">CI</label>
-                    <input type="text" class="form-control" th:field="*{persona.ci}" placeholder="CI">
+                    <input type="text" class="form-control" th:field="*{cliente.persona.ci}" placeholder="CI">
                 </div>
                 <div class="col-4">
                     <label for="">Correo Electronico</label>
-                    <input type="email" class="form-control" th:field="*{persona.email}"
+                    <input type="email" class="form-control" th:field="*{cliente.persona.email}"
                         placeholder="Correo Electronico">
                 </div>
                 <div class="col-4">
                     <label for="">Direccion</label>
-                    <input type="text" class="form-control" th:field="*{persona.direccion}" placeholder="Direccion">
+                    <input type="text" class="form-control" th:field="*{cliente.persona.direccion}" placeholder="Direccion">
                 </div>
             </div>
             <div class="row">
                 <h5>Datos del Equipos</h5>
                 <div id="equipos-container">
-                    <!-- <div class="row">
-                        <div class="col-4">
-                            <label for="">Marca</label>
-                            <input type="text" class="form-control" th:field="*{equipo.marca}" placeholder="Marca">
-                        </div>
-                        <div class="col-4">
-                            <label for="">Modelo</label>
-                            <input type="email" class="form-control" th:field="*{equipo.modelo}" placeholder="Modelo">
-                        </div>
-                        <div class="col-4">
-                            <label for="">Serie</label>
-                            <input type="text" class="form-control" th:field="*{equipo.serie}" placeholder="Serie">
-                        </div>
-                    </div> -->
-
+                   
                 </div>
                 &nbsp;
                 <div class="col-12">
@@ -88,7 +75,9 @@
     </form>
     <script>
         $(document).ready(function () {
-            $('.js-example-basic-single').select2();
+            $('.js-example-basic-single').select2({
+                placeholder:"Seleccione"
+            });
             $('#form1').submit(function (event) {
                 event.preventDefault();
 
@@ -137,6 +126,8 @@
                 });
 
             });
+
+            
         });
     </script>
     
@@ -154,27 +145,52 @@
                 <div class="row">
                     <div class="col-3">
                         <label for="">Marca</label>
-                        <input type="text" class="form-control" name="equipo[${index}].marca" placeholder="Marca">
+                        <input type="text" class="form-control" name="detalleRecepciones[${index}].marca" placeholder="Marca">
                     </div>
                     <div class="col-3">
                         <label for="">Modelo</label>
-                        <input type="email" class="form-control" name="equipo[${index}].modelo" placeholder="Modelo">
+                        <input type="text" class="form-control" name="detalleRecepciones[${index}].modelo" placeholder="Modelo">
                     </div>
                     <div class="col-3">
                         <label for="">Serie</label>
-                        <input type="text" class="form-control" name="equipo[${index}].serie" placeholder="Serie">
+                        <input type="text" class="form-control" name="detalleRecepciones[${index}].serie" placeholder="Serie">
                     </div>
                     <div class="col-3">
                         <label for="">Tipo De Equipo</label>
-                        <select class="js-example-basic-single" name="equipo[${index}].tipoEquipo" style="width: 100%;">
+                        <select class="js-example-basic-single" name="detalleRecepciones[${index}].tipoEquipo" id="tipoEquipo-${index}" style="width: 100%;">
+                            <option value="" selected></option>
                             ${tipoEquiposOptions}
                         </select>
                     </div>
+                    <div id="falla_replace_${index}"></div>
                 </div>
             `;
     
             container.insertAdjacentHTML('beforeend', newFields);
-            $('.js-example-basic-single').select2();
+            $('.js-example-basic-single').select2({
+                placeholder:"Seleccione"
+            });
+
+            // Agregar evento change para el select recién creado usando jQuery
+            $(`#tipoEquipo-${index}`).on('change', function() {
+                const selectedValue = $(this).val(); // Obtener el valor seleccionado
+                console.log('Tipo de equipo seleccionado:', selectedValue);
+                $.ajax({
+                    type: "GET",
+                    url: "/fallas/" + selectedValue +"/"+`${index}`,
+                    success: function (response) {
+                        console.log("Exito");
+                        
+                        $(`#falla_replace_${index}`).html(response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            });
         });
+
     </script>
+    
+    
 </div>

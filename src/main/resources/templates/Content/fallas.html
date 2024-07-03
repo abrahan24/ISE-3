@@ -1,0 +1,12 @@
+<div th:fragment="fallas" class="col-12">
+    <label for="">Seleccione Fallas</label>
+    <select class="js-example-basic-multiple" th:name="|fallas[${index}].fallas|"  multiple="multiple" style="width: 100%;">
+        <option th:each="f : ${fallas}" th:text="${f.nom_falla}" th:value="${f.id_falla}"></option>
+    </select>
+
+    <script>
+        $(document).ready(function (){
+            $('.js-example-basic-multiple').select2();
+        });
+    </script>
+</div>
